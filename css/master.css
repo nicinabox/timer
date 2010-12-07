@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  font-family: "helvetica neue", helvetica, arial, sans-serif;
+}
+
+#theButton a {
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+  display: block;
+  font-size: 26px;
+  margin: 20px;
+  text-align: center;
+  -webkit-border-radius: 5px;
+}
+.start {
+  color: white;
+  background: #99cc33;
+}
+.start:hover {
+  background: #8fbe30;
+}
+.stop {
+  color: white;
+  background: #E51837;
+}
+.stop:hover {
+  background: #c61530;
+}
+.notes {
+  color: gray;
+  margin: 20px;
+  float: left;
+}
+.notes span {
+  margin-right: 20px;
+  display: block;
+  float: left;
+}
+#live {
+  color: #444;
+  font-weight: bold;
+  float: left;
+  margin: 20px;
+}
