@@ -2,8 +2,16 @@ body {
   margin: 0;
   font-family: "helvetica neue", helvetica, arial, sans-serif;
 }
-
-#theButton a {
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul#info li {
+  float: left;
+  margin-left: 20px;
+}
+#theButton {
   font-weight: bold;
   text-decoration: none;
   display: block;
@@ -28,19 +36,13 @@ body {
 .stop:hover {
   background: #c61530;
 }
-.notes {
-  color: gray;
-  margin: 20px;
-  float: left;
+
+#info {
+  overflow: auto;
 }
-.notes span {
-  margin-right: 20px;
-  display: block;
-  float: left;
+#info strong {
+  color: silver;
 }
-#live {
-  color: #444;
-  font-weight: bold;
-  float: left;
-  margin: 20px;
+#started, #live, #total {
+  display: none;
 }

@@ -19,58 +19,73 @@ function epoch() {
   return Math.round(new Date().getTime() / 1000);
 }
 function liveTime() {
-window.setTimeout( "liveTime()", 1000 );
-live = getDiff(epoch());
-$('#live').html(live+" min");
+  $('#live span').html(formatDiff());
 }
-function getDiff(ts) {
-  // get the time from storage
+function totalTime(diff) {
+  return (diff/60/60).toFixed(2)+" hours";
+}
+function getDiff() {
+  var ts = epoch();
   var started = localStorage['startTime'];
+  var diff = ts-started; 
+  return diff;
+}
+function formatDiff() {
+  var diff = getDiff();
   
-  // Get difference in times
-  var diff = ts-started;
-  minVar = Math.floor(diff/60); 
-  secVar = diff % 60;
-  return minVar+":"+secVar;
+  sec = diff % 60; 
+  min = Math.floor(diff/60); 
+  hr = Math.floor(diff/60/60); 
+
+  out = sec+" sec";
+  if (min > 0) {
+    out = min+" min "+out;
+  }
+  if (hr > 0) {
+   out = hr+" hr "+out;
+  }
   
+  return out;
 }
 
 $(document).ready(function() {
   // If you reload the page
   if (localStorage['startTime']) {
-    $("#theButton a").attr('class', 'stop');
-    $("#theButton a").text('Stop Time');
-    $('.notes').empty().append("<span><b>Started at:</b> "+formattedTime(localStorage['startTime'])+"</span>"); 
+    $("#theButton").attr('class', 'stop');
+    $("#theButton").text('Stop Time');
+    $('#started span').html(formattedTime(localStorage['startTime'])).parent().show(); 
+    $('#live').show();
     liveTime();
+    id = setInterval(liveTime, 1000);
   }
    
   // If you click the button
-  $('#theButton a').click(function() {
+  $('#theButton').click(function() {
     ts = epoch();
     running = checkRunning();
     fTime = formattedTime(ts);
     
     if (!running) {
-      $("#theButton a").attr('class', 'stop');
-      $("#theButton a").text('Stop Time');
+      $("#theButton").attr('class', 'stop');
+      $("#theButton").text('Stop Time');
       
      localStorage['startTime'] = ts;
-      $('.notes').empty().append("<span><b>Started at:</b> "+fTime+"</span>");
-      $('#live').show();
+      $('#started span').html(fTime).parent().fadeIn('fast');
+      $('#total').hide();
+      $('#live').fadeIn('fast');
       liveTime();
+      id = setInterval(liveTime, 1000);
+      
     } else {
-      $("#theButton a").attr('class', 'start');
-      $("#theButton a").text('Start Time');
+      $("#theButton").attr('class', 'start');
+      $("#theButton").text('Start Time');
       
-      var diff = getDiff(ts);
+      var diff = getDiff();
+      $('#total span').html(totalTime(diff)).parent().fadeIn('fast');
       
-      // Feedback
-      $('.notes').append("<span><b>Elapsed:</b> "+diff+" min</span>");
-      
-      // destroy time
       localStorage.removeItem('startTime');
-    
-      $('#live').hide();
+  
+      clearTimeout(id);
     }
     return false;
   });
