@@ -21,6 +21,7 @@ ul#info li {
   margin: 20px;
   text-align: center;
   -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 .start {
   color: white;
