@@ -39,7 +39,7 @@ function formatDiff() {
 
   out = sec+" sec";
   if (min > 0) {
-    out = min+" min "+out;
+    out = min%60+" min "+out;
   }
   if (hr > 0) {
    out = hr+" hr "+out;
