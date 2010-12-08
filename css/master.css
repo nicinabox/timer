@@ -43,6 +43,6 @@ ul#info li {
 #info strong {
   color: silver;
 }
-#started, #live, #total {
+#info li {
   display: none;
 }

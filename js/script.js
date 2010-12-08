@@ -58,6 +58,9 @@ $(document).ready(function() {
     liveTime();
     id = setInterval(liveTime, 1000);
   }
+  if (localStorage['recentTime'] != "0.00") {
+    $('#recent span').html(localStorage['recentTime']).parent().show();
+  }
    
   // If you click the button
   $('#theButton').click(function() {
@@ -81,11 +84,19 @@ $(document).ready(function() {
       $("#theButton").text('Start Time');
       
       var diff = getDiff();
-      $('#total span').html(totalTime(diff)).parent().fadeIn('fast');
+      var total = totalTime(diff);
+      $('#total span').html(total).parent().fadeIn('fast');
       
+      if (localStorage['recentTime'] != "0.00") {
+        $('#recent span').html(localStorage['recentTime']).parent().fadeIn('fast');
+      }
+      
+      localStorage['recentTime'] = total;
+      
+      // Clean up
       localStorage.removeItem('startTime');
-  
       clearTimeout(id);
+      
     }
     return false;
   });
