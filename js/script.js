@@ -58,7 +58,7 @@ $(document).ready(function() {
     liveTime();
     id = setInterval(liveTime, 1000);
   }
-  if (localStorage['recentTime'] != "0.00") {
+  if (localStorage['recentTime'] && localStorage['recentTime'] != "0.00") {
     $('#recent span').html(localStorage['recentTime']).parent().show();
   }
    
@@ -87,7 +87,7 @@ $(document).ready(function() {
       var total = totalTime(diff);
       $('#total span').html(total).parent().fadeIn('fast');
       
-      if (localStorage['recentTime'] != "0.00") {
+      if (localStorage['recentTime'] && localStorage['recentTime'] != "0.00") {
         $('#recent span').html(localStorage['recentTime']).parent().fadeIn('fast');
       }
       
