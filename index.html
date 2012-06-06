@@ -1,22 +1,21 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Timer</title>
-	<meta name="generator" content="TextMate http://macromates.com/">
-	<meta name="author" content="Nic Haynes">
-	<!-- Date: 2010-12-07 -->
-	
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<link rel="stylesheet" href="css/master.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	<script src="js/script.js" type="text/javascript" charset="utf-8"></script>
-	
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Timer</title>
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/master.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <script src="js/timer.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/application.js" type="text/javascript" charset="utf-8"></script>
+
 </head>
 <body>
-  <a id="theButton" class="start" href="#">Start Time</a>
+  <a id="button" class="start" href="#">Start Time</a>
+
   <ul id="info">
     <li id="started"><strong>Started:</strong> <span></span></li>
-    <li id="live"><strong>Elapsed:</strong> <span></span></li>
+    <li id="elapsed"><strong>Elapsed:</strong> <span></span></li>
     <li id="total"><strong>Total:</strong> <span></span></li>
     <li id="recent"><strong>Last Session:</strong> <span></span></li>
   </ul>
