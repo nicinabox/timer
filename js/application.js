@@ -1,44 +1,68 @@
 (function($) {
+  var t = timer();
+  
   $(function() {
 
-    var $button = $('#button'),
+    var $button = $('.button.stopped'),
+        $pause = $('.button.pause'),
         $body = $('body'),
-        t = timer(),
+        $time = $('#elapsed-time'),
         id;
 
-    setState($button, t.status());
+    setState(t.status());
+    id = setElapsedTime($time, true);
 
     $button.on('click', function(e) {
       e.preventDefault();
 
-      if (t.status() === 'running') {
-        $button.trigger('timer.stop');
-      } else {
-        $button.trigger('timer.start');
+      switch(t.status()) {
+        case 'stopped':
+        case 'paused':
+          $button.trigger('timer.start');
+          break;
+        default:
+          $button.trigger('timer.stop');
+          break;
       }
 
     });
-
     $body.on('timer.start', $button, function() {
       t.start();
-      setState($button, t.status());
-
-      id = setInterval(function() {
-        $('#elapsed').show().find('span').html(t.elapsed_time(true));
-      }, 1000);
+      setState(t.status());
+      
+      id = setElapsedTime($time, true);
 
     });
-
     $body.on('timer.stop', $button, function() {
       t.stop();
-      setState($button, t.status());
+      clearInterval(id);
+      setState(t.status());
     });
+    $pause.on('click', function(e) {
+      e.preventDefault();
+      t.pause();
+      clearInterval(id);
+      setState(t.status());
+      
+    });
+    
+    function setState(status) {
+      var running = status === 'running';
+      
+      $pause.toggleClass('hidden', !running);
+      $button.toggleClass('running', running)
+      $button.text((running ? 'Stop' : 'Start'));
+    }
+    
+    function setElapsedTime($el, update) {
+      $el.html(t.elapsed_time(true));
 
+      if (update && t.status() === 'running') {
+        return setInterval(function() {
+          $el.html(t.elapsed_time(true));
+        }, 1000);
+      }
+    }
   });
-  
-  function setState($el, status) {
-    $el.attr('class', status);
-    $el.text((status === 'running' ? 'Stop' : 'Start') + 'Time');
-  }
   
 })(jQuery);

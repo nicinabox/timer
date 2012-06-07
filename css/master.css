@@ -2,6 +2,13 @@ body {
   margin: 0;
   font-family: "helvetica neue", helvetica, arial, sans-serif;
 }
+#root {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.container {
+  margin: 20px;
+}
 ul {
   margin: 0;
   padding: 0;
@@ -11,17 +18,18 @@ ul#info li {
   float: left;
   margin-left: 20px;
 }
-#button {
+.button {
   font-weight: bold;
   text-decoration: none;
   display: block;
   padding: 10px 20px;
   display: block;
   font-size: 26px;
-  margin: 20px;
   text-align: center;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
+  margin-bottom: 8px;
+  color: white;
 }
 .stopped {
   color: white;
@@ -33,9 +41,27 @@ ul#info li {
 .running {
   color: white;
   background: #E51837;
+  width: 44%;
+  float: left;
 }
 .running:hover {
   background: #c61530;
+}
+.pause {
+  background: #FFB640;
+  width: 44%;
+  float: right;
+}
+.pause:hover {
+  background: #ffa91e;
+}
+.hidden {
+  display: none;
+}
+
+#elapsed-time {
+  text-align: center;
+  font-size: 50px;
 }
 
 #info {
