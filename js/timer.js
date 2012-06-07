@@ -6,23 +6,26 @@ var timer = function(method, args) {
   };
   
   var elapsedTime = function(format_output) {
-    var running = isRunning(),
-        paused = isPaused(),
+    var s = status(),
         from = startedAt(),
         elapsed_time = parseFloat(fetch('elapsed_time')) || 0,
+        use_elapsed_time = fetch('use_elapsed_time'),
         result = 0;
     
-    if (running) {
+    if (s === 'running') {
       to = newEpoch();
       result = (to - from) + elapsed_time;
-    } else if(paused) {
-      to = pausedAt();
-      result = to - from;
-      if (result !== elapsed_time) {
-        result += elapsed_time;
+    } else if(s === 'paused') {
+      if (use_elapsed_time) {
+        result = elapsed_time;
+      } else {
+        to = pausedAt();
+        result = to - from;
+        if (result !== elapsed_time) {
+          result += elapsed_time;
+        } 
       }
     }
-
     return (format_output ? format(result) : result);
   };
   
@@ -95,6 +98,7 @@ var timer = function(method, args) {
     start: function(format_output) {
       if (isPaused()) {
         delete localStorage.paused_at;
+        delete localStorage.use_elapsed_time;
       }
       startedAt(newEpoch());
       return elapsedTime(format_output);
@@ -114,6 +118,8 @@ var timer = function(method, args) {
       if (!isPaused()) {
         pausedAt(newEpoch());
         elapsed_time = store('elapsed_time', elapsedTime()); 
+        store('use_elapsed_time', true)
+        
         return format_output ? format(elapsed_time) : elapsed_time;
       } else {
         return elapsedTime(format_output);
