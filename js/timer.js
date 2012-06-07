@@ -5,7 +5,7 @@ var timer = function(method, args) {
     return Math.round(new Date().getTime() / 1000);
   };
   
-  var elapsedTime = function(format_output) {
+  var elapsedTime = function(to_json) {
     var s = status(),
         from = startedAt(),
         elapsed_time = parseFloat(fetch('elapsed_time')) || 0,
@@ -26,24 +26,15 @@ var timer = function(method, args) {
         } 
       }
     }
-    return (format_output ? format(result) : result);
+    return (to_json ? toJSON(result) : result);
   };
   
-  var format = function(epoch) {
-    var sec = epoch % 60,
-        min = Math.floor(epoch / 60),
-        hr = Math.floor(epoch / 60 / 60),
-        formatted = sec + " sec";
-
-    if (min > 0) {
-      formatted = min % 60 + " min " + formatted;
-    }
-    
-    if (hr > 0) {
-     formatted = hr + " hr " + formatted;
-    }
-
-    return formatted;
+  var toJSON = function(time) {
+    return {
+      "h": Math.floor(time / 60 / 60),
+      "m": Math.floor(time / 60) % 60,
+      "s": time % 60
+    };
   };
   
   var status = function() {
@@ -95,17 +86,17 @@ var timer = function(method, args) {
   };
   
   api = {
-    start: function(format_output) {
+    start: function(to_json) {
       if (isPaused()) {
         delete localStorage.paused_at;
         delete localStorage.use_elapsed_time;
       }
       startedAt(newEpoch());
-      return elapsedTime(format_output);
+      return elapsedTime(to_json);
     },
-    stop: function(format_output) {
+    stop: function(to_json) {
       var paused_at = newEpoch(),
-          elapsed_time = elapsedTime(format_output);
+          elapsed_time = elapsedTime(to_json);
       
       remove = ['paused_at', 'started_at', 'elapsed_time']
       for (var i=0, len = remove.length; i < len; i++) {
@@ -114,19 +105,19 @@ var timer = function(method, args) {
       
       return elapsed_time;
     },
-    pause: function(format_output) {
+    pause: function(to_json) {
       if (!isPaused()) {
         pausedAt(newEpoch());
         elapsed_time = store('elapsed_time', elapsedTime()); 
         store('use_elapsed_time', true)
         
-        return format_output ? format(elapsed_time) : elapsed_time;
+        return to_json ? toJSON(elapsed_time) : elapsed_time;
       } else {
-        return elapsedTime(format_output);
+        return elapsedTime(to_json);
       }
     },
     elapsed_time: elapsedTime,
-    format: format,
+    to_json: toJSON,
     status: status
   };
   

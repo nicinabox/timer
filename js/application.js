@@ -31,7 +31,6 @@
       setState(t.status());
       
       id = setElapsedTime($time, true);
-
     });
     $body.on('timer.stop', $button, function() {
       t.stop();
@@ -43,7 +42,6 @@
       t.pause();
       clearInterval(id);
       setState(t.status());
-      
     });
     
     function setState(status) {
@@ -55,13 +53,22 @@
     }
     
     function setElapsedTime($el, update) {
-      $el.html(t.elapsed_time(true));
+      $el.html(format(t.elapsed_time(true)));
 
       if (update && t.status() === 'running') {
         return setInterval(function() {
-          $el.html(t.elapsed_time(true));
+          $el.html(format(t.elapsed_time(true)));
         }, 1000);
       }
+    }
+    
+    function format(time) {
+      var formatted = '';
+      
+      for (k in time) {
+        formatted += time[k] + k + ' ' 
+      }
+      return formatted;
     }
   });
   
